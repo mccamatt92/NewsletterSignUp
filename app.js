@@ -5,10 +5,9 @@ const request = require("request");
 
 
 const api = {
-    key: "Insertkeyhere",
+    key: "KeyHere",
     url: `https://us2.api.mailchimp.com/3.0/lists/bddfe0d70e`
 }
-
 
 const app = express();
 
@@ -53,6 +52,15 @@ app.post("/",function(req,res){
 
   const request =  https.request(api.url,options,function(respone)
     {
+        if(respone.statusCode == 200){
+            res.sendFile(`${__dirname}/success.html`)
+        }
+        else
+        {
+            res.sendFile(`${__dirname}/failure.html`)
+        }
+
+
         respone.on("data",function(data)
         {
             console.log(JSON.parse(data));
@@ -62,6 +70,10 @@ app.post("/",function(req,res){
 request.end();
 })
 
+
+app.post("/failure",function(req,res){
+    res.redirect("/")
+})
 
 
 
